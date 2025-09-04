@@ -4,3 +4,59 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
+.quickconvert {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: fit-content; /* Adjust width based on content */
+}
+
+.quickconvert form {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* space between the children */
+}
+
+.unitFor1,
+.divmiddle,
+.divright {
+    display: flex;
+    align-items: center;
+}
+
+.unitFor1 input[type = "number"] {
+    
+    max-width: 40px
+
+}
+
+#quickConvert-btn {
+    
+    margin-top: 5px;
+    margin-left: 20px;
+    
+    
+}
+
+.datesAndResult {
+    display: flex;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    gap: 12px; /* space between the children */
+    background-color: #f9f9f9;
+    width: fit-content; /* Adjust width based on content */
+} 
+
+.dateInfo, .resultMiddle, .resultRight {
+    border: 1px solid #ccc;
+    width: fit-content;
+}
+
+.resultHere {
+    display: none
+}

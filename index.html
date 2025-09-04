@@ -8,6 +8,189 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">   
 </head>
 <body>
+
+    <div class="container">
+        
+        <div class="header">
+               <h1>Currency Converter</h1>
+        </div>
+
+                <form action="">
+                    <div class="amount">
+                        <label for="amount">Amount</label>
+                        <input type="number" id="amount" placeholder="Enter Amount" value="1" required>
+                    </div>
+                    <div class="from">
+                        <label for="from">From</label>
+                        <select name="from" id="from">
+                            <option value="USD">$ USD</option>
+                            <option value="EUR">€ EUR</option>
+                            <option value="GBP">£ GBP</option>
+                            <option value="NGA">₦ NGA</option>
+                            <option value="INR">₹ INR</option>
+                            <option value="AUD">$ AUD</option>
+                            <option value="CAD">$ CAD</option>
+                            <option value="SGD">$ SGD</option>
+                            <option value="CHF">₣ CHF</option>
+                            <option value="MYR">RM MYR</option>
+                            <option value="JPY">¥ JPY</option>
+                            <option value="CNY">¥ CNY</option>
+                        </select>
+                    </div>
+                    <div class="to">
+                        <label for="to">To</label>
+                        <select name="to" id="to">
+                            <option value="USD">$ USD</option>
+                            <option value="EUR">€ EUR</option>
+                            <option value="GBP">£ GBP</option>
+                            <option value="NGA">₦ NGA</option>
+                            <option value="INR">₹ INR</option>
+                            <option value="AUD">$ AUD</option>
+                            <option value="CAD">$ CAD</option>
+                            <option value="SGD">$ SGD</option>
+                            <option value="CHF">₣ CHF</option>
+                            <option value="MYR">RM MYR</option>
+                            <option value="JPY">¥ JPY</option>
+                            <option value="CNY">¥ CNY</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="convert-btn">Convert</button>
+                </form>
+
+        <div class="result">
+            <h3>Converted Amount:</h3>
+            <p id="converted-amount"></p>
+        </div>
+         
+        <div class="quickconvert">
+
+                <form action="">
+                    <div class="unitFor1">
+                        <label for="amount">$</label>
+                        <input type="number" id="amountread" value="1" readonly>
+                    </div>
+                    <div class="divmiddle">
+                        <label for="tomiddle">to</label>
+                        <select name="tomiddle" id="to">
+                            <option value="USD">$ USD</option>
+                            <option value="EUR">€ EUR</option>
+                            <option value="GBP">£ GBP</option>
+                            <option value="NGA">₦ NGA</option>
+                            <option value="INR">₹ INR</option>
+                            <option value="AUD">$ AUD</option>
+                            <option value="CAD">$ CAD</option>
+                            <option value="SGD">$ SGD</option>
+                            <option value="CHF">₣ CHF</option>
+                            <option value="MYR">RM MYR</option>
+                            <option value="JPY">¥ JPY</option>
+                            <option value="CNY">¥ CNY</option>
+                        </select>
+                    </div>
+                    <div class="divright">
+                        <label for="toright">to</label>
+                        <select name="toright" id="toright">
+                            <option value="USD">$ USD</option>
+                            <option value="EUR">€ EUR</option>
+                            <option value="GBP">£ GBP</option>
+                            <option value="NGA">₦ NGA</option>
+                            <option value="INR">₹ INR</option>
+                            <option value="AUD">$ AUD</option>
+                            <option value="CAD">$ CAD</option>
+                            <option value="SGD">$ SGD</option>
+                            <option value="CHF">₣ CHF</option>
+                            <option value="MYR">RM MYR</option>
+                            <option value="JPY">¥ JPY</option>
+                            <option value="CNY">¥ CNY</option>
+                        </select>
+                    </div>
+
+                </form>
+
+                <button type="submit" id="quickConvert-btn">Convert</button>
+
+                <div class="resultHere">
+                    <h3>Converted Amount:</h3>
+                    <p id="converted-amount"></p>
+                </div>
+
+
+                <div class="datesAndResult">
+
+                    <div class="dateInfo">
+                        <p> :</p>
+                    </div> 
+
+                    <div class="resultMiddle">
+                        <p id="converted-amount"></p>
+                    </div>
+
+                    <div class="resultRight">
+                        "another something"
+                    </div>
+
+                </div>
+                        
+                    
+                
+
+         </div>
+       
+
+    </div>
+    
+    <script>
+            
+            document.querySelector('.dateInfo p').textContent = `${new Date().toLocaleDateString()} :`;
+
+            document.querySelector('form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const amount = document.querySelector('#amount').value;
+            const from = document.querySelector('.from').value;
+            const to = document.querySelector('.to').value;
+            const resultElems = document.querySelectorAll('#converted-amount');
+
+            // Get today's date and yesterday's date in YYYY-MM-DD format
+            const today = new Date();
+              // console.log(today);
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            const formatDate = d => d.toISOString().split('T')[0];
+
+        
+
+            // Fetch today's rate
+            const todayUrl = `https://api.exchangerate.host/latest?base=${from}&symbols=${to}`;
+            // Fetch yesterday's rate
+            const yesterdayUrl = `https://api.exchangerate.host/${formatDate(yesterday)}?base=${from}&symbols=${to}`;
+
+            try {
+                const [todayRes, yesterdayRes] = await Promise.all([
+                    fetch(todayUrl),
+                    fetch(yesterdayUrl)
+                ]);
+                const todayData = await todayRes.json();
+                const yesterdayData = await yesterdayRes.json();
+
+                const todayRate = todayData.rates[to];
+                const yesterdayRate = yesterdayData.rates[to];
+
+                let arrow = '';
+                if (todayRate > yesterdayRate) arrow = '↑';
+                else if (todayRate < yesterdayRate) arrow = '↓';
+                else arrow = '<->';
+
+                const converted = (amount * todayRate).toFixed(2);
+                resultElems.forEach(elem => {
+                    elem.textContent = `${converted} ${to} ${arrow}`;
+                });
+            } catch (err) {
+                resultElems.forEach(elem => {
+                    elem.textContent = 'Error fetching rates.';
+                });
+            }
+        });
+        
+    </script>
     
 </body>
 </html>

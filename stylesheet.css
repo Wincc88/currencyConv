@@ -5,6 +5,14 @@
     font-family: 'Poppins', sans-serif;
 }
 
+#topunchanged {
+    display: flex;
+}
+
+.amount input[type="number"] {
+    width: 40px;
+}
+
 .quickconvert {
     margin-top: 20px;
     border: 1px solid #ccc;
@@ -19,6 +27,31 @@
     align-items: center;
     gap: 12px; /* space between the children */
 }
+
+#conversionForm {
+    display: flex;
+    align-items: center;
+    gap: 28px; /* space between the children */
+    background-color: bisque;
+    margin-top: 6px;
+    margin-left: 2px;
+}
+
+#inside1st, #inanotherto {
+    display: flex;
+    
+    justify-content: center;
+    
+    font-size: 14px;
+    border: 1px solid #ccc;
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+#inside1st:hover, #inanotherto:hover {
+    background-color: #e0e0e0;
+}
+
 
 .unitFor1,
 .divmiddle,

@@ -15,46 +15,93 @@
                <h1>Currency Converter</h1>
         </div>
 
-                <form action="">
-                    <div class="amount">
-                        <label for="amount">Amount</label>
-                        <input type="number" id="amount" placeholder="Enter Amount" value="1" required>
-                    </div>
+        <form id="topunchanged" action="">
+            <div class="amount">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" placeholder="Enter Amount" value="1" readonly>
+            </div>
+        </form>
+         
+        <form id="conversionForm" action="#myserver" method="POST">
+            
+
                     <div class="from">
-                        <label for="from">From</label>
-                        <select name="from" id="from">
-                            <option value="USD">$ USD</option>
-                            <option value="EUR">€ EUR</option>
-                            <option value="GBP">£ GBP</option>
-                            <option value="NGA">₦ NGA</option>
-                            <option value="INR">₹ INR</option>
-                            <option value="AUD">$ AUD</option>
-                            <option value="CAD">$ CAD</option>
-                            <option value="SGD">$ SGD</option>
-                            <option value="CHF">₣ CHF</option>
-                            <option value="MYR">RM MYR</option>
-                            <option value="JPY">¥ JPY</option>
-                            <option value="CNY">¥ CNY</option>
-                        </select>
+
+                        <div id="from1st">
+                            <label for="from">From</label>
+                            <select name="from" id="from">
+                                <option value="USD">$ USD</option>
+                                <option value="EUR">€ EUR</option>
+                                <option value="GBP">£ GBP</option>
+                                <option value="NGA">₦ NGA</option>
+                                <option value="INR">₹ INR</option>
+                                <option value="AUD">$ AUD</option>
+                                <option value="CAD">$ CAD</option>
+                                <option value="SGD">$ SGD</option>
+                                <option value="CHF">₣ CHF</option>
+                                <option value="MYR">RM MYR</option>
+                                <option value="JPY">¥ JPY</option>
+                                <option value="CNY">¥ CNY</option>
+                            </select> 
+                        </div>
+
+                        <div id="empty1st">
+                              <button type="submit" id="convert-btn">!!!</button>
+                        </div>
+
                     </div>
+
                     <div class="to">
-                        <label for="to">To</label>
-                        <select name="to" id="to">
-                            <option value="USD">$ USD</option>
-                            <option value="EUR">€ EUR</option>
-                            <option value="GBP">£ GBP</option>
-                            <option value="NGA">₦ NGA</option>
-                            <option value="INR">₹ INR</option>
-                            <option value="AUD">$ AUD</option>
-                            <option value="CAD">$ CAD</option>
-                            <option value="SGD">$ SGD</option>
-                            <option value="CHF">₣ CHF</option>
-                            <option value="MYR">RM MYR</option>
-                            <option value="JPY">¥ JPY</option>
-                            <option value="CNY">¥ CNY</option>
-                        </select>
+                        <div id="to1st">
+                            <label for="to">To</label>
+                            <select name="to" id="to">
+                                <option value="USD">$ USD</option>
+                                <option value="EUR">€ EUR</option>
+                                <option value="GBP">£ GBP</option>
+                                <option value="NGA">₦ NGA</option>
+                                <option value="INR">₹ INR</option>
+                                <option value="AUD">$ AUD</option>
+                                <option value="CAD">$ CAD</option>
+                                <option value="SGD">$ SGD</option>
+                                <option value="CHF">₣ CHF</option>
+                                <option value="MYR">RM MYR</option>
+                                <option value="JPY">¥ JPY</option>
+                                <option value="CNY">¥ CNY</option>
+                            </select>
+                        </div>
+
+                        <div id="inside1st"
+                                 <button type="button" id="convert-btn1">Convert</button>
+                        </div>
+
                     </div>
-                    <button type="submit" id="convert-btn">Convert</button>
+
+                    <div class="anotherTo">
+                    
+                        <div id="anotherTo1st">
+                            <label for="anotherTo">More</label>
+                            <select name="anotherTo" id="anotherTo">
+                                <option value="USD">$ USD</option>
+                                <option value="EUR">€ EUR</option>
+                                <option value="GBP">£ GBP</option>
+                                <option value="NGA">₦ NGA</option>
+                                <option value="INR">₹ INR</option>
+                                <option value="AUD">$ AUD</option>
+                                <option value="CAD">$ CAD</option>
+                                <option value="SGD">$ SGD</option>
+                                <option value="CHF">₣ CHF</option>
+                                <option value="MYR">RM MYR</option>
+                                <option value="JPY">¥ JPY</option>
+                                <option value="CNY">¥ CNY</option>
+                            </select>
+                        </div>
+
+                        <div id="inanotherto"
+                                 <button type="button" id="convert-btn2">Convert</button>
+                        </div>
+
+                    </div>
+
                 </form>
 
         <div class="result">
@@ -139,6 +186,10 @@
     </div>
     
     <script>
+
+        // if date on monday i.e on the website === date last friday --- then holiday 
+        // if date on previous day is same as today then holiday. mark HOLIDAY
+        // IF DATE FALLS ON WEEKEND i.e Saturday or Sunday -- then no change in rate. mark weekend or just show the rate
             
             document.querySelector('.dateInfo p').textContent = `${new Date().toLocaleDateString()} :`;
 

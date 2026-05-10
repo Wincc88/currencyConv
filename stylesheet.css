@@ -9,7 +9,7 @@
     display: flex;
 }
 
-.amount input[type="number"] {
+.amount input[type="number"], .from input[type="text"] {
     width: 40px;
 }
 
@@ -37,7 +37,7 @@
     margin-left: 2px;
 }
 
-#inside1st, #inanotherto {
+#inside1st, #insecondTo {
     display: flex;
     
     justify-content: center;
@@ -48,31 +48,12 @@
     cursor: pointer;
 }
 
-#inside1st:hover, #inanotherto:hover {
+#inside1st:hover, #insecondTo:hover {
     background-color: #e0e0e0;
 }
 
 
-.unitFor1,
-.divmiddle,
-.divright {
-    display: flex;
-    align-items: center;
-}
 
-.unitFor1 input[type = "number"] {
-    
-    max-width: 40px
-
-}
-
-#quickConvert-btn {
-    
-    margin-top: 5px;
-    margin-left: 20px;
-    
-    
-}
 
 .datesAndResult {
     display: flex;
@@ -88,8 +69,19 @@
 .dateInfo, .resultMiddle, .resultRight {
     border: 1px solid #ccc;
     width: fit-content;
+    background-color: #ccc;
 }
 
+.twoDaysInfo, .previousDaysInfo {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: fit-content; /* Adjust width based on content */
+}
+
+
 .resultHere {
-    display: none
+    display: none;
 }

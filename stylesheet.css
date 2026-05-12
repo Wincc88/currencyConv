@@ -72,7 +72,7 @@
     background-color: #ccc;
 }
 
-.twoDaysInfo, .previousDaysInfo {
+.twoDaysInfo, .yesterdayInfo, .previousDaysInfo {
     margin-top: 20px;
     border: 1px solid #ccc;
     padding: 10px;
@@ -81,6 +81,14 @@
     width: fit-content; /* Adjust width based on content */
 }
 
+.previousMonthsInfo, .previousMonth {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: fit-content; /* Adjust width based on content */
+}
 
 .resultHere {
     display: none;

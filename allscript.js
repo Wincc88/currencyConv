@@ -5,10 +5,14 @@
         // if date on previous day is same as today then holiday. mark HOLIDAY
         // IF DATE FALLS ON WEEKEND i.e Saturday or Sunday -- then no change in rate. mark weekend or just show the rate
             
-            document.querySelector('.dateInfo p').textContent = `${new Date().toLocaleDateString()} `;
+            todaysDate = document.querySelector('.dateInfo p');
+            todaysDate.textContent = `${new Date().toLocaleDateString()} `;
+
             const middleResultDisplay = document.querySelector('.resultMiddle p');
             document.querySelector('.resultRight p').textContent = '2ndfetchedfromAPI same way'; 
+
             const convertBtn1 = document.querySelector('#convert-btn1'); 
+
 
           //  convertBtn1.addEventListener('click', function() {  
             const fromCurrency = document.querySelector('#from').value.split(' ')[1]; // Extract 'from' currency code
@@ -17,29 +21,94 @@
 
  
             const amountDefault = document.querySelector('#amount').value;
- 
-           
+            
+             const ratesDisplays = document.querySelector('.rateSection p');
+            // ratesDisplays.textContent = "put here currency rate from API";
+         
 
             //  using eg from below   start here 
             async function getRates() {
                 
                 try {
-                  //  const response = await fetch(`https://v6.exchangerate-api.com/v6/88c2c34f1805cfde6c567bef/latest/${fromCurrency}`);
-                    const currData = await response.json();
                     
-                    const allRates = currData.conversion_rates;
+                    // const response = await fetch(`https://v6.exchangerate-api.com/v6/88c2c34f1805cfde6c567bef/latest/${fromCurrency}`);
+                    
+                  //  const response = await fetch(`https://data.fixer.io/api/latest?access_key=b6d9b7275a4b9f5b550f8644d84eff53`);
+                    
+                    const currData = await response.json();
+                 
+                    console.log(currData);
+                    console.log(currData.base);
+
+
+                    console.log(currData.rates.USD);
+                    
+                    
+                    const allRates = currData.rates;    //      const allRates = currData.conversion_rates;
                     const rateKeys = Object.keys(allRates);
                     const rateValues = Object.values(allRates);
-                                
-                                
-                              
+
                     
+                       /*
+                    function timeFromCurrData () {
+                        // const todayYearMonth = new Date();
+                        //console.log(todayYearMonth);
+
+                        
+                        const apiDateTime = currData.time_last_update_utc;
+                        // format apitime like formatDate 
+
+                        const apiTime = new Date(apiDateTime);
+                        
+                        
+                        const formatDate = d => d.toISOString().split('T')[1]; // gets the time part 000z is timezone
+                        //  const localTime = todayYearMonth.toLocaleTimeString();
+
+                        console.log(`${formatDate(apiTime)}`);
+                        //  console.log(localTime);
+                    
+                    }
+                    timeFromCurrData(); 
+                    */
+                     
+                    
+                    // for our today and other dates display rate, static chosen at specific ti,mes of the day
+                    function checkTodayRate() {
+                            if (todaysDate) {
+                                
+                                const staticChosen = `EUR to USD: ${currData.rates.USD}` //${currData.conversion_rates.EUR}`;
+                                const displayRate = ratesDisplays.textContent = staticChosen;
+                                
+
+                            // console.log('Today is the same as the date on the website. It might be a holiday. Mark as HOLIDAY.');
+                            // somthingsomething.textContent = 'HOLIDAY';
+
+                                return displayRate;
+
+                            }     
+                    };
+                    checkTodayRate();
+
+
+
+                               /*  cont here
+                        function yesterdaysRates() {
+                            // check time for yesterdays rate 
+                            if(apiTime !== getTimeYesterday) {
+                                alert(`get it here ${getTimeYesterday}`)
+                            }
+                        } 
+                              */
+
+                        
+
+
                     //  console.log(`USD to EUR: ${currData.conversion_rates.EUR}`);
                     console.log(allRates);
                     console.log(rateKeys);
                     //  console.log(rateValues);
 
-                             
+                   
 
                     function currValueSelected() {
 
@@ -60,20 +129,24 @@
                         if (allRates[selectedCurrency]) {
                             console.log(`USD to ${selectedCurrency}: ${allRates[selectedCurrency]}`);
                             middleResultDisplay.textContent = allRates[selectedCurrency];
+
                         } else {
                             console.log(`No rate for ${selectedCurrency} in response`);
                             middleResultDisplay.textContent = `No rate for ${selectedCurrency} available  ..yet!`;
                         }
                         console.log(`Selected currency on change: ${selectedCurrency}`);
                     });
-                        
-                            // Set EUR rate on load -- it awaits and takes the result from fetch to select EUR
+                                   
+                            // Set EUR rate on load -- it awaits and takes the result from fetch to select EUR  
+                                 // another api use eur as base, so need to switch 
+                               
                             // i dont need special windows onload or DOMContentLoaded event listeners..
                             //.. because the script is at the end of the body, so it will run after the DOM is loaded.
-                    middleResultDisplay.textContent = `${currData.conversion_rates.EUR}`;
-                    console.log(`Selected currency on load: EUR = ${currData.conversion_rates.EUR}`); // Log the default selected currency on load
+                    middleResultDisplay.textContent = currData.rates.EUR;    //`${currData.conversion_rates.EUR}`;
+                    console.log(`selected on load EUR = ${currData.rates.EUR}`)          //(`Selected currency on load: EUR = ${currData.conversion_rates.EUR}`); // Log the default selected currency on load
+                   // ratesDisplays.textContent = currData.rates.EUR
 
-                    
+
                     } catch (error) {
                     console.error('Error fetching rates:', error);
                     middleResultDisplay.textContent = 'Error fetching rates';
@@ -81,33 +154,54 @@
                 }
             
                 getRates(); 
+                
+            
+      
+                              
+                     
+
+
+            const allDateDisplay = document.querySelector('.dateSection p');
+            allDateDisplay.textContent = `${new Date().toLocaleDateString()}`;
+
+            
+
+           
+            
 
 
 
+            const todayElement = document.querySelector('.today'); 
 
+            const todayYearMonth = new Date();
+              //console.log(todayYearMonth);
 
-            const twoDays = document.querySelector('.twoDaysInfo'); 
+            const yesterdayYearMonths = new Date(todayYearMonth);
+            yesterdayYearMonths.setDate(todayYearMonth.getDate() - 1);
+              //console.log(yesterdayYearMonths);
 
-            const today = new Date();
-              //console.log(today);
-            const yesterday = new Date(today);
-            yesterday.setDate(today.getDate() - 1);
-              //console.log(yesterday);
+            const getTimeYesterday = new Date(todayYearMonth);
+            getTimeYesterday.setDate(todayYearMonth.getDate() - 1);
+            getTimeYesterday.setHours(23, 0, 0, 0); // Set to 11:00 PM GMT +8
+            console.log(getTimeYesterday); 
             
             const formatDate = d => d.toISOString().split('T')[0];
             
-            twoDays.textContent = `Today: ${formatDate(today)}, Yesterday: ${formatDate(yesterday)}`;
+            todayElement.textContent = `${formatDate(todayYearMonth)}`;
+
+           // todayElement.textContent = `Today: ${formatDate(todayYearMonth)}, Yesterday: ${formatDate(yesterday)}`;
  
             const yesterdayElement = document.querySelector('.yesterday');
-            yesterdayElement.textContent = `${formatDate(yesterday)}`;
+            yesterdayElement.textContent = `${formatDate(yesterdayYearMonths)}`;
+            
             const previousDaysElement = document.querySelector('.previous-days');
             const weekDayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             const weekStartDay = 0; // Sunday
             
             // Get the start of the week (Sunday)
-            const startOfWeek = new Date(today);
-            const daysSinceSunday = (today.getDay() - weekStartDay + 7) % 7;
-            startOfWeek.setDate(today.getDate() - daysSinceSunday);
+            const startOfWeek = new Date(todayYearMonth);
+            const daysSinceSunday = (todayYearMonth.getDay() - weekStartDay + 7) % 7;
+            startOfWeek.setDate(todayYearMonth.getDate() - daysSinceSunday);
             
             
 
@@ -133,8 +227,8 @@
             const previousmonthsElement = document.querySelector('.previous-months');
             const previousMonth = document.querySelector('.previousMonth p');
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            const currentMonth = today.getMonth();
-            const currentYear = today.getFullYear();
+            const currentMonth = todayYearMonth.getMonth();
+            const currentYear = todayYearMonth.getFullYear();
             const currentMonthName = `${monthNames[currentMonth]} ${currentYear}`;
             const nextMonth = new Date(currentYear, currentMonth + 1, 1);
             const nextMonthName = `${monthNames[nextMonth.getMonth()]} ${nextMonth.getFullYear()}`;
@@ -151,24 +245,59 @@
 
             // Create months object with weekly days
             const monthsDaysDisplay = document.querySelector('.months-days-display');
+            const currentMonthheader = document.querySelector('.months-days h4');
+            const showDaysAsHeader = document.querySelector('.weeklyDaysinMonth h4');
+            let monthandyear = '';
+            let showDaysAsHeaderText = '';
             const monthsObject = {};
             
             for (let i = 0; i < 7; i++) {
                 const weekDay = new Date(startOfWeek);
                 weekDay.setDate(startOfWeek.getDate() + i);
+               // console.log(weekDay);
+                
                 const dayName = weekDayNames[weekDay.getDay()];
+                // console.log(dayName);
                 const dayDate = formatDate(weekDay);
+                // console.log(dayDate);
                 const monthKey = `${monthNames[weekDay.getMonth()]} ${weekDay.getFullYear()}`;
+                //console.log(monthKey);
                 
                 if (!monthsObject[monthKey]) {
                     monthsObject[monthKey] = [];
-                }
+                   // console.log(`Created new month key: ${monthKey}`);
+                  //  console.log(`this is done here: ${monthsObject}`);
+                } 
+                    
                 monthsObject[monthKey].push(`${dayName} ${dayDate}`);
+                  console.log(monthsObject);
+                
+                monthandyear = monthKey;
+                  //console.log(monthandyear);
+                
+
+                  //use as static header text for the weekly days in month section 
+
+                showDaysAsHeaderText += `${dayName} `;
+                console.log(showDaysAsHeaderText);
+               
             }
+             
+            currentMonthheader.textContent = monthandyear;
+
+             monthsDaysDisplay.textContent = Object.values(monthsObject)
+                .map(days => days.join(', '))
+                .join(' | ');
+
+            showDaysAsHeader.textContent = showDaysAsHeaderText; // Remove trailing space
             
-            monthsDaysDisplay.textContent = Object.entries(monthsObject)
+            /*  if i want the key i.e month and year together wit the values.
+
+             monthsDaysDisplay.textContent = Object.entries(monthsObject)
                 .map(([month, days]) => `${month}:  ${days.join(', ')}`)
                 .join('');
+
+            */
          
         
             
@@ -242,7 +371,7 @@
             console.log(yesterday);
             const formatDate = d => d.toISOString().split('T')[0];
             
-            twoDays.textContent = new Date().toISOString();
+            toDay.textContent = new Date().toISOString();
  
               // Example using a public currency API      --- i will later use this block ....
                //     async function getRates() {
@@ -288,4 +417,4 @@
         */
 
 
-              
+       

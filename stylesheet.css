@@ -72,7 +72,7 @@
     background-color: #ccc;
 }
 
-.twoDaysInfo, .yesterdayInfo, .previousDaysInfo {
+.toDayInfo, .yesterdayInfo, .previousDaysInfo {
     margin-top: 20px;
     border: 1px solid #ccc;
     padding: 10px;
@@ -83,6 +83,27 @@
 
 .previousMonthsInfo, .previousMonth {
     margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: fit-content; /* Adjust width based on content */
+}
+
+.rateForAllDays {
+    display: flex;
+    margin-top: 20px;
+    gap: 25px; /* space between the children */
+    border: 1px solid red;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: fit-content; /* Adjust width based on content */
+}
+
+.months-days  {
+    display: flex;
+    margin-top: 5px;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 8px;

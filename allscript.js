@@ -4,6 +4,8 @@
 // if date on monday i.e on the website === date last friday --- then holiday 
         // if date on previous day is same as today then holiday. mark HOLIDAY
         // IF DATE FALLS ON WEEKEND i.e Saturday or Sunday -- then no change in rate. mark weekend or just show the rate
+
+
             
             todaysDate = document.querySelector('.dateInfo p');
             todaysDate.textContent = `${new Date().toLocaleDateString()} `;
@@ -25,6 +27,11 @@
              const ratesDisplays = document.querySelector('.rateSection p');
             // ratesDisplays.textContent = "put here currency rate from API";
          
+
+            const changeSymbol = document.querySelector('.twentyFourHoursChange');
+          //  const higherSym = document.querySelector('.higher');
+          //  const lowerSym = document.querySelector('.lower')
+          //  const unchngSym = document.querySelector('.noChange');
 
             //  using eg from below   start here 
             async function getRates() {
@@ -72,7 +79,7 @@
                     */
                      
                     
-                    // for our today and other dates display rate, static chosen at specific ti,mes of the day
+                    // for our today and other dates display rate, static chosen at specific times of the day
                     function checkTodayRate() {
                             if (todaysDate) {
                                 
@@ -154,6 +161,81 @@
                 }
             
                 getRates(); 
+
+            
+                const rateDummytod = 1.5468
+                const yesterdayDummy = 1.5460
+
+            function dummyrateToday () { 
+
+                    let changeR = rateDummytod / yesterdayDummy;
+                    let percentageInDe = [(yesterdayDummy - rateDummytod)/rateDummytod]*100
+                    
+
+                     // no need duplicate in each condition, brougt out on top
+                    const inBig = document.createElement("div");
+                    inBig.classList.add("insideBig");
+
+                        const para = document.createElement("div");
+                        para.textContent = `${percentageInDe.toPrecision(3)}`;
+                        para.classList.add("higher");
+
+                        const otherPara = document.createElement("div");
+                        otherPara.classList.add("divBesideHigher");
+                        otherPara.textContent; // = "↑";
+
+                     /*   inBig.appendChild(para);
+                        inBig.appendChild(otherPara);
+
+                        changeSymbol.appendChild(inBig);
+                        
+                        console.log(otherPara);
+                        console.log(para); */
+
+
+                    if (rateDummytod === yesterdayDummy) {
+                        // changeR = unchngSym;
+
+                        otherPara.textContent = "↔";
+
+                        inBig.appendChild(para);
+                        inBig.appendChild(otherPara);
+
+                        changeSymbol.appendChild(inBig);
+
+                    }
+                    else if (rateDummytod < yesterdayDummy) {
+                       // changR = lowerSym;
+                       // console.log("lower");
+
+                        otherPara.textContent = "↓";
+
+                        inBig.appendChild(para);
+                        inBig.appendChild(otherPara);
+
+                        changeSymbol.appendChild(inBig);
+                    }
+                    else {
+                       
+                        otherPara.textContent = "↑";
+
+                        inBig.appendChild(para);
+                        inBig.appendChild(otherPara);
+
+                        changeSymbol.appendChild(inBig);
+                        
+                        console.log(otherPara);
+                        console.log(para);
+                        
+                      //  const newnu  = higherSym.textContent;
+                       // console.log(newnu);
+                        console.log(percentageInDe);
+                        console.log(percentageInDe.toPrecision(3));
+                        console.log(changeR);
+                    }
+                   console.log(`the change is ${changeR}`) 
+            }
+            dummyrateToday();
                 
             
       

@@ -6,6 +6,8 @@
         // IF DATE FALLS ON WEEKEND i.e Saturday or Sunday -- then no change in rate. mark weekend or just show the rate
 
 
+
+
             
             todaysDate = document.querySelector('.dateInfo p');
             todaysDate.textContent = `${new Date().toLocaleDateString()} `;
@@ -169,7 +171,7 @@
             function dummyrateToday () { 
 
                     let changeR = rateDummytod / yesterdayDummy;
-                    let percentageInDe = [(yesterdayDummy - rateDummytod)/rateDummytod]*100
+                    let percentageInDe = [(rateDummytod - yesterdayDummy)/rateDummytod]*100
                     
 
                      // no need duplicate in each condition, brougt out on top
@@ -177,7 +179,7 @@
                     inBig.classList.add("insideBig");
 
                         const para = document.createElement("div");
-                        para.textContent = `${percentageInDe.toPrecision(3)}`;
+                        para.textContent = `${percentageInDe.toPrecision(2) + "%"}`;
                         para.classList.add("higher");
 
                         const otherPara = document.createElement("div");
@@ -195,6 +197,8 @@
 
                     if (rateDummytod === yesterdayDummy) {
                         // changeR = unchngSym;
+
+                        para.textContent = `${percentageInDe+"%"}`
 
                         otherPara.textContent = "↔";
 
@@ -236,17 +240,203 @@
                    console.log(`the change is ${changeR}`) 
             }
             dummyrateToday();
-                
+
+           const formerDisplay = document.querySelector('.dateSection p');
+           // formerDisplay.textContent = `${new Date().toLocaleDateString()}`;
+
+            const allDateDisplay = document.querySelector('.dateSection');
+            //allDateDisplay.textContent = `${new Date().toLocaleDateString()}`;
+
+            const daysDisplay = document.querySelector('.daysName'); 
+
+            const currencyDisplay = document.querySelector('.currencySection');
+
+            const ratesDisplay = document.querySelector('.rateSection');
+
             
-      
+
+
+            const fetchedApiData = [
+                            { date: '2026-05-25', day: 'Monday', events: ['Team Meeting', 'Doctor Appointment'], status: 'busy' },
+                            { date: '2026-05-24', day: 'Sunday', events: ['wfh'], status: 'available' },
+                            { date: '2026-05-23', day: 'Saturday', events: ['project'], status: 'on site' },
+                            { date: '2026-05-22', day: 'Friday', events: ['office'], status: 'available' },
+                            { date: '2026-05-21', day: 'Thursday', events: ['Gym Session'], status: 'available', rate:'01234' }
+                            ];
+
+            function getDateRangeApiData(numOfDays, apiData) {
+                
+                // Convert API array to a Map for O(1) fast lookups
+                const apiMap = new Map(apiData.map(item => [item.date, item]));
+                const dates = [];
+                const days = [];
+
+                const dateToday = new Date();
+                    console.log(dateToday);
+                const dateYesterday = new Date(dateToday);
+                    // console.log(dateYesterday);
+                dateYesterday.setDate(dateToday.getDate() - 1);
+                console.log(dateYesterday);
+
+                
+                        for (let i = 0; i <= numOfDays; i++) {
+
+                            const date = new Date();
+                           
+                            date.setDate(date.getDate() - i);
+                            
+                            const dateString = date.toISOString().split('T')[0];
+                            
+                            const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+
+                             /* if i want "/" format 
+                              const newName = date.toLocaleDateString();
+                                // then make textContent = newname
+                               console.log(newName); 
+                              */
+                            
+        
+                            // Check if the API has data for this specific date
+                            const matchingApiData = apiMap.get(dateString);
+                            console.log(matchingApiData);
+                            
+
+
+                            // Create base day object with date and day name
+                                const dayObject = {
+                                date: dateString,
+                                day: dayName
+                                };
+
+                                // Use if/else to assign properties based on API match
+                                 // match rates for dates 
+                                    if (matchingApiData) {
+
+                                    dayObject.events = matchingApiData.events;   // .rates = matcching.rates 
+                                    dayObject.status = matchingApiData.status;   // .anything needed 
+                                    dayObject.rate = matchingApiData.rate;     // undefined for now -- no api rate object found
+                                   // dayObject.day = matchingApiData.day;
+                                       const dateInnewDiv = document.createElement("div");
+                                       dateInnewDiv.textContent = matchingApiData.date;
+                                       dateInnewDiv.classList.add('datesDiv');
+                                       allDateDisplay.appendChild(dateInnewDiv);
+
+
+                                    console.log(dayObject.date);
+                                  //  daysDisplay.textContent = matchingApiData.day;
+
+
+                                   const daysInNewDivs = document.createElement("div");
+                                       daysInNewDivs.textContent = matchingApiData.day;
+                                       daysInNewDivs.classList.add('daysDiv');
+                                       daysDisplay.appendChild(daysInNewDivs);
+                                    console.log(dayObject.day);  
+
+                                    const ratesInNewDivs = document.createElement("div");
+                                       const makeratenumber = parseFloat(matchingApiData.rate)
+                                       ratesInNewDivs.textContent = makeratenumber;
+                                       ratesInNewDivs.classList.add('ratesDiv');
+                                       ratesDisplay.appendChild(ratesInNewDivs);
+                                    console.log(dayObject.rate);
+
+                                    const currencyInNewDivs = document.createElement("div");
+                                       currencyInNewDivs.textContent = 'USD'  // can match any with -- matchingApiData.currency;
+                                       currencyInNewDivs.classList.add('currencyDiv');
+                                       currencyDisplay.appendChild(currencyInNewDivs);
+
+                                    } 
+                                    else {
+
+                                    dayObject.events = [];            // .rates 
+                                    dayObject.status = 'empty';      // anything
+
+                                    }
+                                    
+                                    
+                            dates.push(dayObject);
+
+                            
+                         
+                        }
+                    return dates;
+                }
+
+                    // Generate the list mapping the past 5 days to API data
+                console.log(getDateRangeApiData(4, fetchedApiData));
+                
+        
+
+            /*      Using this for dates 
+
+
+                   // Simulating data fetched from your API
+                            const fetchedApiData = [
+                            { date: '2026-05-22', events: ['Team Meeting', 'Doctor Appointment'], status: 'busy' },
+                            { date: '2026-05-20', events: ['Gym Session'], status: 'available' }
+                            ];
+
+                            function gateDateRangeApiData(numOfDays, apiData) {
+                            // Convert API array to a Map for O(1) fast lookups
+                            const apiMap = new Map(apiData.map(item => [item.date, item]));
+                            const dates = [];
+                            
+                                    for (let i = 0; i <= numOfDays; i++) {
+                                        const date = new Date();
+                                        date.setDate(date.getDate() - i);
+                                        
+                                        const dateString = date.toISOString().split('T')[0];
+                                        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+                                
+                                            // Check if the API has data for this specific date
+                                            const matchingApiData = apiMap.get(dateString);
+
+
+                                            // Create base day object with date and day name
+                                                const dayObject = {
+                                                date: dateString,
+                                                day: dayName
+                                                };
+
+                                                // Use if/else to assign properties based on API match
+
+                                                    if (matchingApiData) {
+
+                                                    dayObject.events = matchingApiData.events;
+                                                    dayObject.status = matchingApiData.status;
+
+                                                    } 
+                                                    else {
+
+                                                    dayObject.events = [];
+                                                    dayObject.status = 'empty';
+
+                                                    }
+                                                    
+                                         dates.push(dayObject);
+                                    }
+                                
+                                return dates;
+                            }
+
+                                // Generate the list mapping the past 5 days to API data
+                                console.log(gateDateRangeApiData(4, fetchedApiData));
+
+
+                                            output 
+                    [
+                        { date: '2026-05-22', day: 'Friday', events: ['Team Meeting', 'Doctor Appointment'], status: 'busy' },
+                        { date: '2026-05-21', day: 'Thursday', events: [], status: 'empty' },
+                        { date: '2026-05-20', day: 'Wednesday', events: ['Gym Session'], status: 'available' }
+                    ]
+
+
+
+            */
                               
                      
 
 
-            const allDateDisplay = document.querySelector('.dateSection p');
-            allDateDisplay.textContent = `${new Date().toLocaleDateString()}`;
-
-            
+           
 
            
             

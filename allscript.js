@@ -165,81 +165,7 @@
                 getRates(); 
 
             
-                const rateDummytod = 1.5468
-                const yesterdayDummy = 1.5460
-
-            function dummyrateToday () { 
-
-                    let changeR = rateDummytod / yesterdayDummy;
-                    let percentageInDe = [(rateDummytod - yesterdayDummy)/rateDummytod]*100
-                    
-
-                     // no need duplicate in each condition, brougt out on top
-                    const inBig = document.createElement("div");
-                    inBig.classList.add("insideBig");
-
-                        const para = document.createElement("div");
-                        para.textContent = `${percentageInDe.toPrecision(2) + "%"}`;
-                        para.classList.add("higher");
-
-                        const otherPara = document.createElement("div");
-                        otherPara.classList.add("divBesideHigher");
-                        otherPara.textContent; // = "↑";
-
-                     /*   inBig.appendChild(para);
-                        inBig.appendChild(otherPara);
-
-                        changeSymbol.appendChild(inBig);
-                        
-                        console.log(otherPara);
-                        console.log(para); */
-
-
-                    if (rateDummytod === yesterdayDummy) {
-                        // changeR = unchngSym;
-
-                        para.textContent = `${percentageInDe+"%"}`
-
-                        otherPara.textContent = "↔";
-
-                        inBig.appendChild(para);
-                        inBig.appendChild(otherPara);
-
-                        changeSymbol.appendChild(inBig);
-
-                    }
-                    else if (rateDummytod < yesterdayDummy) {
-                       // changR = lowerSym;
-                       // console.log("lower");
-
-                        otherPara.textContent = "↓";
-
-                        inBig.appendChild(para);
-                        inBig.appendChild(otherPara);
-
-                        changeSymbol.appendChild(inBig);
-                    }
-                    else {
-                       
-                        otherPara.textContent = "↑";
-
-                        inBig.appendChild(para);
-                        inBig.appendChild(otherPara);
-
-                        changeSymbol.appendChild(inBig);
-                        
-                        console.log(otherPara);
-                        console.log(para);
-                        
-                      //  const newnu  = higherSym.textContent;
-                       // console.log(newnu);
-                        console.log(percentageInDe);
-                        console.log(percentageInDe.toPrecision(3));
-                        console.log(changeR);
-                    }
-                   console.log(`the change is ${changeR}`) 
-            }
-            dummyrateToday();
+               
 
            const formerDisplay = document.querySelector('.dateSection p');
            // formerDisplay.textContent = `${new Date().toLocaleDateString()}`;
@@ -257,37 +183,69 @@
 
 
             const fetchedApiData = [
-                            { date: '2026-05-25', day: 'Monday', events: ['Team Meeting', 'Doctor Appointment'], status: 'busy' },
-                            { date: '2026-05-24', day: 'Sunday', events: ['wfh'], status: 'available' },
-                            { date: '2026-05-23', day: 'Saturday', events: ['project'], status: 'on site' },
-                            { date: '2026-05-22', day: 'Friday', events: ['office'], status: 'available' },
-                            { date: '2026-05-21', day: 'Thursday', events: ['Gym Session'], status: 'available', rate:'01234' }
+                            { date: '2026-05-30', day: 'Saturday', events: ['nada'], status: 'online' },
+                            { date: '2026-05-31', day: 'Sunday', events: ['wfh'], status: 'available', rate: '1.0021' },
+                            { date: '2026-06-01', day: 'Monday', events: ['Team Meeting', 'Doctor Appointment'], status: 'busy',rate: '1.5456' },
+                            { date: '2026-06-02', day: 'Tuesday', events: ['wfh'], status: 'available', rate: '1.5456' },
+                            { date: '2026-06-03', day: 'Wednesday', events: ['project'], status: 'on site', rate:'1.5463' },
+                            { date: '2026-06-04', day: 'Thursday', events: ['office'], status: 'available', rate:'1.5460' },
+                            { date: '2026-06-05', day: 'Friday', events: ['Gym Session'], status: 'available', rate:'1.5468' }
                             ];
 
-            function getDateRangeApiData(numOfDays, apiData) {
+            function getDateRangeApiData(apiData) {
                 
                 // Convert API array to a Map for O(1) fast lookups
                 const apiMap = new Map(apiData.map(item => [item.date, item]));
                 const dates = [];
                 const days = [];
 
+
+                /*
                 const dateToday = new Date();
                     console.log(dateToday);
                 const dateYesterday = new Date(dateToday);
                     // console.log(dateYesterday);
                 dateYesterday.setDate(dateToday.getDate() - 1);
                 console.log(dateYesterday);
-
+                */
                 
-                        for (let i = 0; i <= numOfDays; i++) {
+                        for (let i = 0; i < fetchedApiData.length; i++) {
+                        //len start count from 1 not 0 so i < and not <=  else it will add undefined as last arraynumber;
 
-                            const date = new Date();
+                            const current_date = new Date();
+
+                            const yesterdaysDate = new Date(current_date);
+                            yesterdaysDate.setDate(current_date.getDate() - 1);
+                            // console.log('yesterdayCheckhere: ', yesterdaysDate);
                            
-                            date.setDate(date.getDate() - i);
+                            current_date.setDate(current_date.getDate() - i);
+                            console.log('dateCheckhere: ', current_date);
+
+                             
                             
-                            const dateString = date.toISOString().split('T')[0];
-                            
-                            const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+                            const dateString = current_date.toISOString().split('T')[0];
+                              // console.log(`dateStringHere: ${dateString}`);
+
+                            const dayName = current_date.toLocaleDateString('en-US', { weekday: 'long' });
+                              // console.log(`dayNameHere: ${dayName}`);
+
+                            function nameTodayAndYesterday() {
+
+                                if (dayName === new Date().toLocaleDateString('en-US', { weekday: 'long' })) {
+                                    console.log("Today");
+                                    return "Today";
+                                }
+                                else if (dayName === yesterdaysDate.toLocaleDateString('en-US', { weekday: 'long' })) {
+                                     console.log("Yesterday");
+                                    return "Yesterday";
+                                }
+                            //console.log(dayName);            
+                              return dayName;
+
+                            };
+                                
+                            nameTodayAndYesterday();
+                             
 
                              /* if i want "/" format 
                               const newName = date.toLocaleDateString();
@@ -298,73 +256,242 @@
         
                             // Check if the API has data for this specific date
                             const matchingApiData = apiMap.get(dateString);
-                            console.log(matchingApiData);
-                            
-
+                             //console.log(matchingApiData);
+            
 
                             // Create base day object with date and day name
-                                const dayObject = {
+
+                              /* i already have the infos in object form from api data, so i can just use the matchingApiData
                                 date: dateString,
                                 day: dayName
+                                     //rates: allRate
                                 };
+                                console.log(`dayObject: ${JSON.stringify(dayObject)}`); 
+
+                                */
+
 
                                 // Use if/else to assign properties based on API match
                                  // match rates for dates 
                                     if (matchingApiData) {
-
+                                   /*
                                     dayObject.events = matchingApiData.events;   // .rates = matcching.rates 
                                     dayObject.status = matchingApiData.status;   // .anything needed 
                                     dayObject.rate = matchingApiData.rate;     // undefined for now -- no api rate object found
-                                   // dayObject.day = matchingApiData.day;
+                                    */
+                                    // dayObject.day = matchingApiData.day;
+
+
+                                    events = matchingApiData.events;
+                                    status = matchingApiData.status;
+                                    rates = matchingApiData.rate;
+                                   
                                        const dateInnewDiv = document.createElement("div");
                                        dateInnewDiv.textContent = matchingApiData.date;
                                        dateInnewDiv.classList.add('datesDiv');
                                        allDateDisplay.appendChild(dateInnewDiv);
 
 
-                                    console.log(dayObject.date);
+                                        console.log(matchingApiData.date);  // console.log(dayObject.date);
                                   //  daysDisplay.textContent = matchingApiData.day;
 
 
                                    const daysInNewDivs = document.createElement("div");
-                                       daysInNewDivs.textContent = matchingApiData.day;
+                                       daysInNewDivs.textContent = nameTodayAndYesterday(matchingApiData.day);
                                        daysInNewDivs.classList.add('daysDiv');
                                        daysDisplay.appendChild(daysInNewDivs);
-                                    console.log(dayObject.day);  
-
+                                       console.log(matchingApiData.day);  //console.log(dayObject.day);  
+                                       
+                                    
                                     const ratesInNewDivs = document.createElement("div");
-                                       const makeratenumber = parseFloat(matchingApiData.rate)
-                                       ratesInNewDivs.textContent = makeratenumber;
+                                    const makeratenumber = parseFloat(matchingApiData.rate)
+                                       // console.log(typeof makeratenumber);
+    
+                                          //console.log(makeratenumber);
+                                            if (isNaN(makeratenumber)) {
+                                                console.log("rate not available from api")  // rate is not provided in api data
+                                                ratesInNewDivs.textContent = "Not available";  
+                                
+                                            }
+                                            else {
+                                                console.log(matchingApiData.rate);  //console.log(dayObject.rate);
+                                                //console.log(`type of makeratenumber: ${typeof makeratenumber}`);
+                                                ratesInNewDivs.textContent = makeratenumber;
+                                                //console.log(`type of ratesInNewDivs.textContent: ${typeof ratesInNewDivs.textContent}`);
+
+                                            }
+                                            
                                        ratesInNewDivs.classList.add('ratesDiv');
                                        ratesDisplay.appendChild(ratesInNewDivs);
-                                    console.log(dayObject.rate);
+
 
                                     const currencyInNewDivs = document.createElement("div");
                                        currencyInNewDivs.textContent = 'USD'  // can match any with -- matchingApiData.currency;
                                        currencyInNewDivs.classList.add('currencyDiv');
                                        currencyDisplay.appendChild(currencyInNewDivs);
 
+                                    const latestRate = makeratenumber; 
+                                    
+
+                                    // need to point it towards new Date nad previousdays again even when done up there
+                                    const previousDate = new Date(current_date);
+                                    previousDate.setDate(current_date.getDate() - 1);
+                                    const previousDateString = previousDate.toISOString().split('T')[0];
+                                    const previousApiData = apiMap.get(previousDateString);
+                                    const previousRate = previousApiData ? parseFloat(previousApiData.rate) : null;
+                                    console.log(`latestRate: ${latestRate}, previousRate: ${previousRate} (from ${previousDateString})`);
+                                    
+                                    
+                                    rateChangePerDay(latestRate, previousRate);   
+
+                                   /*
+                                    const apperinTodayDiv = document.querySelector('.toDayInfo');
+                                    const paraInToday = document.createElement("p");
+                                    paraInToday.classList.add("paraInToday");
+                                    paraInToday.textContent = `Today's rate: ${matchingApiData.rate}`;
+                                    console.log(`paraInToday textContent: ${paraInToday.textContent}`);
+                                    apperinTodayDiv.appendChild(paraInToday);
+                                    */
+
+
                                     } 
                                     else {
+                                    console.log('no matching api data for this date, so assign empty values');  // no api data for this date, so assign empty values to events, status, etc.
+                                    events = [];          // dayObject.events = [];            // .rates 
+                                    status = 'empty';     //dayObject.status = 'empty';      // anything
 
-                                    dayObject.events = [];            // .rates 
-                                    dayObject.status = 'empty';      // anything
-
+                                    
                                     }
                                     
                                     
-                            dates.push(dayObject);
-
+                            dates.push(matchingApiData);       //dates.push(dayObject);
+                              // console.log('type of matchingApiData:', typeof matchingApiData);
+                            console.log(matchingApiData);    // console.log(days.push(dayObject));
                             
+
                          
-                        }
+                        } 
+                        
                     return dates;
                 }
 
                     // Generate the list mapping the past 5 days to API data
-                console.log(getDateRangeApiData(4, fetchedApiData));
+                console.log(getDateRangeApiData(fetchedApiData));
+                console.log(fetchedApiData.length);
+
+
+              //  let rateDummytod =     1.5468;          // replace with todays and changes with each day/date
+              //  let yesterdayDummy = 1.5460
+
+            function rateChangePerDay(newRate, oldRate) {
+               // const changeEntry = document.createElement("div");
+                //changeEntry.classList.add("changeEntry");
+
+
+
+                const percentageInDe =  ((newRate - oldRate) / oldRate) * 100;  // oldRate === 0 ? 0 : 
+                    const inBig = document.createElement("div");
+                    inBig.classList.add("insideBig");
+              
+                        const para = document.createElement("div");
+                        para.textContent = `${percentageInDe.toPrecision(2) + "%"}`;
+                        para.classList.add("higher");
+
+                        const otherPara = document.createElement("div");
+                        otherPara.classList.add("divBesideHigher");
+                        otherPara.textContent; // = "↑";
+                       
+
+
+                     /*   inBig.appendChild(para);
+                        inBig.appendChild(otherPara);
+
+                        changeSymbol.appendChild(inBig);
+                        
+                        console.log(otherPara);
+                        console.log(para); */
+                    
+                    if (newRate === null || oldRate === null || isNaN(newRate) || isNaN(oldRate)) {
+
+                        para.textContent = "N/A";  // or "Rate not available"
+
+                        //otherPara.textContent = "n/a";  // can specify which one is null or non-numeric if needed
+
+                        inBig.appendChild(para);
+                       // inBig.appendChild(otherPara);
+
+                        changeSymbol.appendChild(inBig);
+                        console.log("bad input for rate change calculation: ", { newRate, oldRate });
+                       // return "bad input(not number) for rate change calculation";
+                       
+                    }
+
+                    else if (newRate === oldRate) {
+                        // changeR = unchngSym;
+
+                        para.textContent = `${percentageInDe + "%"}`;
+
+                        otherPara.textContent = "↔";
+
+                        inBig.appendChild(para);
+                        inBig.appendChild(otherPara);
+
+                        changeSymbol.appendChild(inBig);
+
+
+                    }
+                    else if (newRate < oldRate) {
+                       // changR = lowerSym;
+                       // console.log("lower");
+
+                        otherPara.textContent = "↓";
+
+                        inBig.appendChild(para);
+                        inBig.appendChild(otherPara);
+
+                        changeSymbol.appendChild(inBig);
+
+                    }
+                    else {
+                       
+                        otherPara.textContent = "↑";
+
+                        inBig.appendChild(para);
+                        inBig.appendChild(otherPara);
+
+                        changeSymbol.appendChild(inBig);
+                       
+                        //
+                        console.log(otherPara);
+                        console.log(para);
+                        
+                      //  const newnu  = higherSym.textContent;
+                       // console.log(newnu);
+                        console.log(percentageInDe);
+                        console.log(percentageInDe.toPrecision(3));
+                        console.log(percentageInDe.toFixed(4));                     
+                    }
+                     console.log(`newRate: ${newRate}, oldRate: ${oldRate}`);
+                        // changeR: ${changeR}`);
+
+                   // Update yesterday's rate to today's rate for next iteration (day change) 
                 
-        
+                   newRate = oldRate;
+                                   //  console.log(`the change is ${changeR}`)  --- logs 7 times here, move down
+                   console.log(`After update: newRate: ${newRate}, oldRate: ${oldRate}`);
+
+
+            }
+           // rateChangePerDay(1.5468, 1.5460);
+           // rateChangePerDay(1234, 5465);
+           // rateChangePerDay(5465, null);
+          // rateChangePerDay(null, 5465);
+          // rateChangePerDay(5465, "string"); // gets the error message for bad input, as expected.
+           // rateChangePerDay(1234, 1234);
+           // rateChangePerDay("fff","ddd"); // gets the error message for bad input, as expected.
+            
+            
+                                         
 
             /*      Using this for dates 
 
